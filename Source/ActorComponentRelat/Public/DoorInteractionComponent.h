@@ -24,5 +24,15 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY(EditAnywhere)
+		FRotator DesiredRotation = FRotator::ZeroRotator; // U need to se them at zero to avoid Garbage value 
+		FRotator StartRotation = FRotator::ZeroRotator;
+		FRotator FinalRotation = FRotator::ZeroRotator;
+	
+	UPROPERTY(EditAnywhere)
+		float TimeToRotate = 1.0f;
+		float CurrentRotationTime = 0.0; 
+
+
 		
 };
