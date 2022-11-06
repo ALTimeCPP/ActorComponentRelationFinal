@@ -65,7 +65,7 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 				GetOwner()->SetActorRotation(CurrentRotation);
 			}
-			 if(PlayerPawn && TriggerBoxOtherside->IsOverlappingActor(PlayerPawn))
+			if(PlayerPawn && TriggerBoxOtherside->IsOverlappingActor(PlayerPawn))
 			{
 
 				CurrentRotationTime += DeltaTime;
