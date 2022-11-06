@@ -7,6 +7,9 @@
 #include "DoorInteractionComponent.generated.h"
 
 
+class ATriggerBox; // There is a class called a trigger box
+ 
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ACTORCOMPONENTRELAT_API UDoorInteractionComponent : public UActorComponent
 {
@@ -33,6 +36,7 @@ public:
 		float TimeToRotate = 1.0f;
 		float CurrentRotationTime = 0.0; 
 
-
+	UPROPERTY(EditAnywhere)
+		ATriggerBox* TriggerBox; 
 		
 };

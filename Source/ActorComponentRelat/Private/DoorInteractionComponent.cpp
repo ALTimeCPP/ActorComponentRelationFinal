@@ -3,6 +3,13 @@
 
 #include "DoorInteractionComponent.h"
 #include "Math/UnrealMathUtility.h"
+#include"GameFramework/Actor.h" 
+#include "GameFramework/PlayerController.h" // 
+#include "Engine/TriggerBox.h" 
+// Firas added those without indicating in lecture !!
+#include "Engine/World.h" // why we needed this. 
+
+
 
 // Sets default values for this component's properties
 UDoorInteractionComponent::UDoorInteractionComponent()
@@ -34,14 +41,23 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	//FRotator CurrentRotation = GetOwner()->GetActorRotation();
-	if (CurrentRotationTime < TimeToRotate)
-	{
-		CurrentRotationTime += DeltaTime;
-		const float RotationAlpha = FMath::Clamp(CurrentRotationTime / TimeToRotate, 0.0f, 1.0f); // Time per frame second
-		const FRotator CurrentRotation = FMath::Lerp(StartRotation, FinalRotation, RotationAlpha);
-		
-		GetOwner()->SetActorRotation(CurrentRotation); 
+	if (CurrentRotationTime < TimeToRotate) // First check  the Rotation then we dont need to do any of this 
+	{	
+		// Check if the Trigger Box is valid and Get world ( we set this up so that work only on Local player
+		if (TriggerBox && GetWorld() && GetWorld()->GetFirstLocalPlayerFromController()) 
+		{
+			// We check the player Pawn 
+			APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();  
+			// And we check if the player pawn is indeed inside the box
+			if (PlayerPawn && TriggerBox->IsOverlappingActor(PlayerPawn))
+			{ // Then we apply the logic which we have done it previous. 
+				CurrentRotationTime += DeltaTime;
+				const float RotationAlpha = FMath::Clamp(CurrentRotationTime / TimeToRotate, 0.0f, 1.0f); // Time per frame second
+				const FRotator CurrentRotation = FMath::Lerp(StartRotation, FinalRotation, RotationAlpha);
 
+				GetOwner()->SetActorRotation(CurrentRotation);
+			}
+		}
 	}
 	
 	
