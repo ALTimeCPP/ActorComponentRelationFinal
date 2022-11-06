@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "DoorInteractionComponent.generated.h"
+//#include "Curves/CurveFloat.h" // Smothing like animation of the door might required somthing much complex. 
+							   // It specefy The rate of teh door to be open 
 
 
 class ATriggerBox; // There is a class called a trigger box
@@ -38,5 +40,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		ATriggerBox* TriggerBox; 
+
+	UPROPERTY(EditAnywhere)
+		FRuntimeFloatCurve OpenCurve; 
 		
 };

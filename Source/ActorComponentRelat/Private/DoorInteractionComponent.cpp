@@ -11,6 +11,7 @@
 
 
 
+
 // Sets default values for this component's properties
 UDoorInteractionComponent::UDoorInteractionComponent()
 {
@@ -52,7 +53,10 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			if (PlayerPawn && TriggerBox->IsOverlappingActor(PlayerPawn))
 			{ // Then we apply the logic which we have done it previous. 
 				CurrentRotationTime += DeltaTime;
-				const float RotationAlpha = FMath::Clamp(CurrentRotationTime / TimeToRotate, 0.0f, 1.0f); // Time per frame second
+				// We will be useing Time ratio which we were useing as time Alpha
+				const float TimeRatio = FMath::Clamp(CurrentRotationTime / TimeToRotate, 0.0f, 1.0f); 
+				// We will use this to get value from the curve
+				const float RotationAlpha = OpenCurve.GetRichCurveConst()->Eval(TimeRatio);
 				const FRotator CurrentRotation = FMath::Lerp(StartRotation, FinalRotation, RotationAlpha);
 
 				GetOwner()->SetActorRotation(CurrentRotation);
