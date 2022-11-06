@@ -33,15 +33,32 @@ public:
 		FRotator DesiredRotation = FRotator::ZeroRotator; // U need to se them at zero to avoid Garbage value 
 		FRotator StartRotation = FRotator::ZeroRotator;
 		FRotator FinalRotation = FRotator::ZeroRotator;
+	// OtherSide Rotation
+	UPROPERTY(EditAnywhere)
+		FRotator DesiredRotationOtherside = FRotator::ZeroRotator; // U need to se them at zero to avoid Garbage value 
+		FRotator StartRotationOtherside = FRotator::ZeroRotator;
+		FRotator FinalRotationOtherside = FRotator::ZeroRotator;
 	
 	UPROPERTY(EditAnywhere)
 		float TimeToRotate = 1.0f;
 		float CurrentRotationTime = 0.0; 
+	
+	// Otherside Parameters 
+	UPROPERTY(EditAnywhere)
+		float TimeToRotateOtherside = 1.0f;
+		float CurrentRotationTimeOtherside = 0.0;
+
 
 	UPROPERTY(EditAnywhere)
 		ATriggerBox* TriggerBox; 
+	// otherside Trigger
+	UPROPERTY(EditAnywhere,Category = "OtherSide")
+		ATriggerBox* TriggerBoxOtherside;
 
 	UPROPERTY(EditAnywhere)
 		FRuntimeFloatCurve OpenCurve; 
+	// otherside Curve
+	UPROPERTY(EditAnywhere,Category = "Curve2")
+		FRuntimeFloatCurve OpenCurveOtherSide;
 		
 };

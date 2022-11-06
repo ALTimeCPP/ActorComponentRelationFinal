@@ -30,9 +30,12 @@ void UDoorInteractionComponent::BeginPlay()
 	//FRotator DesiredRotation(0.0f, 90.0f, 0.0f);// remember here it uses Degrees unreal uses cm // our Desired Rotation
 	StartRotation = GetOwner()->GetActorRotation(); // Desired rotation - Our Current Rotation assume our current location is zero same as our delta rotation.
 	FinalRotation = GetOwner()->GetActorRotation() + DesiredRotation;// CURRENT ROTATION WHICH ASSUEM IS ZERO + 90 DEGREE (OUR CURRENT LOCATION) 
-	
+	CurrentRotationTime = 0.0f;
+	 // Otherside Rotation
+	StartRotationOtherside = GetOwner()->GetActorRotation();
+	FinalRotationOtherside = GetOwner()->GetActorRotation() + DesiredRotation;
 	//Ensure TimeRotation is greaterthan Epsilon
-	CurrentRotationTime = 0.0f; 
+	CurrentRotationTimeOtherside = 0.0f;
 	
 }
 
@@ -60,6 +63,15 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				const FRotator CurrentRotation = FMath::Lerp(StartRotation, FinalRotation, RotationAlpha);
 
 				GetOwner()->SetActorRotation(CurrentRotation);
+			}
+			 else if(PlayerPawn && TriggerBoxOtherside->IsOverlappingActor(PlayerPawn))
+			{
+
+				CurrentRotationTime += DeltaTime;
+				const float TimeRatiOtherside = FMath::Clamp(CurrentRotationTimeOtherside / TimeToRotateOtherside, 0.0f, 1.0f);
+				const float RotationAlphaOtherside = OpenCurve.GetRichCurveConst()->Eval(TimeRatiOtherside);
+				const FRotator CurrentRotationotherside = FMath::Lerp(StartRotationOtherside, FinalRotationOtherside, RotationAlphaOtherside);
+				GetOwner()->SetActorRotation(CurrentRotationotherside);
 			}
 		}
 	}
