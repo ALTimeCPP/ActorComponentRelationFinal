@@ -33,7 +33,7 @@ void UDoorInteractionComponent::BeginPlay()
 	CurrentRotationTime = 0.0f;
 	 // Otherside Rotation
 	StartRotationOtherside = GetOwner()->GetActorRotation();
-	FinalRotationOtherside = GetOwner()->GetActorRotation() + DesiredRotation;
+	FinalRotationOtherside = GetOwner()->GetActorRotation() + DesiredRotationOtherside;
 	//Ensure TimeRotation is greaterthan Epsilon
 	CurrentRotationTimeOtherside = 0.0f;
 	
@@ -53,6 +53,7 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 			// We check the player Pawn 
 			APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();  
 			// And we check if the player pawn is indeed inside the box
+			
 			if (PlayerPawn && TriggerBox->IsOverlappingActor(PlayerPawn))
 			{ // Then we apply the logic which we have done it previous. 
 				CurrentRotationTime += DeltaTime;
@@ -64,7 +65,7 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 
 				GetOwner()->SetActorRotation(CurrentRotation);
 			}
-			 else if(PlayerPawn && TriggerBoxOtherside->IsOverlappingActor(PlayerPawn))
+			 if(PlayerPawn && TriggerBoxOtherside->IsOverlappingActor(PlayerPawn))
 			{
 
 				CurrentRotationTime += DeltaTime;
