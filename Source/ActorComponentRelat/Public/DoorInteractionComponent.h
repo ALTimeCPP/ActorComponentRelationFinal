@@ -34,31 +34,51 @@ public:
 		FRotator StartRotation = FRotator::ZeroRotator;
 		FRotator FinalRotation = FRotator::ZeroRotator;
 	// OtherSide Rotation
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "TimrOtherSide")
 		FRotator DesiredRotationOtherside = FRotator::ZeroRotator; // U need to se them at zero to avoid Garbage value 
 		FRotator StartRotationOtherside = FRotator::ZeroRotator;
 		FRotator FinalRotationOtherside = FRotator::ZeroRotator;
+	// Close the door 
+	UPROPERTY(EditAnywhere, Category = "TimrOtherSide")
+		FRotator DesiredRotationClosed = FRotator::ZeroRotator; // U need to se them at zero to avoid Garbage value 
+		FRotator StartRotationClosed = FRotator::ZeroRotator;
+		FRotator FinalRotationClosed = FRotator::ZeroRotator;
 	
 	UPROPERTY(EditAnywhere)
 		float TimeToRotate = 1.0f;
 		float CurrentRotationTime = 0.0; 
 	
 	// Otherside Parameters 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "TimrOtherSide")
 		float TimeToRotateOtherside = 1.0f;
 		float CurrentRotationTimeOtherside = 0.0;
+
+	// Closed Door
+	UPROPERTY(EditAnywhere, Category = "TimrOtherClosed")
+		float TimeToRotateClosed = 1.0f;
+		float CurrentRotationTimeClosed = 0.0;
 
 
 	UPROPERTY(EditAnywhere)
 		ATriggerBox* TriggerBox; 
 	// otherside Trigger
-	UPROPERTY(EditAnywhere,Category = "OtherSide")
+	UPROPERTY(EditAnywhere,Category = "TriggerOtherSide")
 		ATriggerBox* TriggerBoxOtherside;
+
+	// Closed Trigger
+	UPROPERTY(EditAnywhere, Category = "TriggerOtherClosed")
+		ATriggerBox* TriggerBoxClosed;
 
 	UPROPERTY(EditAnywhere)
 		FRuntimeFloatCurve OpenCurve; 
 	// otherside Curve
-	UPROPERTY(EditAnywhere,Category = "Curve2")
+	UPROPERTY(EditAnywhere,Category = "CurveOtheside")
 		FRuntimeFloatCurve OpenCurveOtherSide;
+	// Close Curve
+	UPROPERTY(EditAnywhere, Category = "CurveClosed")
+		FRuntimeFloatCurve OpenCurveOtherClosed;
+
+	UPROPERTY(EditAnywhere, Category = "Door SoundOtherside")
+		class USoundBase* DoorSound; 
 		
 };
