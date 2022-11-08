@@ -57,26 +57,21 @@ public:
 	UPROPERTY(EditAnywhere, Category = "TimrOtherClosed")
 		float TimeToRotateClosed = 1.0f;
 		float CurrentRotationTimeClosed = 0.0;
+		// overlap begin function
+	UFUNCTION()
+		void OnOverlapBegin( AActor* OverlappedActor,  AActor* OtherActor);
 
+		// overlap end function
+	UFUNCTION()
+		void OnOverlapEnd(AActor* OverlappedActor,  AActor* OtherActor);
 
 	UPROPERTY(EditAnywhere)
 		ATriggerBox* TriggerBox; 
-	// otherside Trigger
-	UPROPERTY(EditAnywhere,Category = "TriggerOtherSide")
-		ATriggerBox* TriggerBoxOtherside;
-
-	// Closed Trigger
-	UPROPERTY(EditAnywhere, Category = "TriggerOtherClosed")
-		ATriggerBox* TriggerBoxClosed;
+	
 
 	UPROPERTY(EditAnywhere)
 		FRuntimeFloatCurve OpenCurve; 
-	// otherside Curve
-	UPROPERTY(EditAnywhere,Category = "CurveOtheside")
-		FRuntimeFloatCurve OpenCurveOtherSide;
-	// Close Curve
-	UPROPERTY(EditAnywhere, Category = "CurveClosed")
-		FRuntimeFloatCurve OpenCurveOtherClosed;
+	
 
 	UPROPERTY(EditAnywhere, Category = "Door SoundOtherside")
 		class USoundBase* DoorSound; 

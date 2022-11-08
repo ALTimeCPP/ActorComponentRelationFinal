@@ -14,13 +14,14 @@
 
 
 
+
 // Sets default values for this component's properties
 UDoorInteractionComponent::UDoorInteractionComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	
 	// ...
 }
 
@@ -46,7 +47,8 @@ void UDoorInteractionComponent::BeginPlay()
 	StartRotationClosed = GetOwner()->GetActorRotation();
 	FinalRotationClosed = GetOwner()->GetActorRotation() + DesiredRotationClosed;
 	CurrentRotationTimeClosed = 0.0f; 
-	
+	//OnActorBeginOverlap.AddDynamic(this, &UDoorInteractionComponent::OnOverlapBegin);
+	//OnActorEndOverlap.AddDynamic(this, &UDoorInteractionComponent::OnOverlapEnd);
 	
 }
 
@@ -57,15 +59,16 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	//FRotator CurrentRotation = GetOwner()->GetActorRotation();
 	if (CurrentRotationTime < TimeToRotate) // First check  the Rotation then we dont need to do any of this 
-	{	APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
+	{
+		APawn* PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
 		// Check if the Trigger Box is valid and Get world ( we set this up so that work only on Local player
 		if (TriggerBox && GetWorld() && GetWorld()->GetFirstLocalPlayerFromController())
 		{
 			// We check the player Pawn 
-			
+
 			// And we check if the player pawn is indeed inside the box
 
-			if (PlayerPawn && TriggerBox->IsOverlappingActor(PlayerPawn))
+			if (PlayerPawn)
 			{ // Then we apply the logic which we have done it previous. 
 				CurrentRotationTime += DeltaTime;
 				// We will be useing Time ratio which we were useing as time Alpha
@@ -79,33 +82,17 @@ void UDoorInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 				UE_LOG(LogTemp, Warning, TEXT("wARNING"));
 			}
 		}
-			if (TriggerBox && GetWorld() && GetWorld()->GetFirstLocalPlayerFromController())
-			{
-				if (PlayerPawn && TriggerBoxOtherside->IsOverlappingActor(PlayerPawn))
-				{
 
-					CurrentRotationTime += DeltaTime;
-					const float TimeRatiOtherside = FMath::Clamp(CurrentRotationTimeOtherside / TimeToRotateOtherside, 0.0f, 1.0f);
-					const float RotationAlphaOtherside = OpenCurve.GetRichCurveConst()->Eval(TimeRatiOtherside);
-					const FRotator CurrentRotationotherside = FMath::Lerp(StartRotationOtherside, FinalRotationOtherside, RotationAlphaOtherside);
-					GetOwner()->SetActorRotation(CurrentRotationotherside);
-					//UGameplayStatics::PlaySoundAtLocation(this, DoorSound, GetActorLocation());
-					UE_LOG(LogTemp, Warning, TEXT("OtherSIDE"));
-				}
-			}
-			if (TriggerBox && GetWorld() && GetWorld()->GetFirstLocalPlayerFromController())
-			{
-				if (PlayerPawn && TriggerBoxClosed->IsOverlappingActor(PlayerPawn))
-				{
-					const float TimeRatiOtherClosed = FMath::Clamp(CurrentRotationTimeOtherside / TimeToRotateOtherside, 0.0f, 1.0f);
-					const float RotationAlphaClosed = OpenCurve.GetRichCurveConst()->Eval(TimeRatiOtherClosed);
-					const FRotator CurrentRotationClosed = FMath::Lerp(StartRotationClosed, FinalRotationClosed, RotationAlphaClosed);
-					GetOwner()->SetActorRotation(CurrentRotationClosed);
-					UE_LOG(LogTemp, Warning, TEXT("Closed"));
-				}
-			}
-		}
 	}
+}
+
+void UDoorInteractionComponent::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
+{
+}
+
+void UDoorInteractionComponent::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
+{
+}
 	
 	
 
